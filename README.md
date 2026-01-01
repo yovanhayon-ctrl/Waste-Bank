@@ -12,8 +12,7 @@ Project ini menggunakan HTML, CSS, dan JavaScript tanpa backend (PHP/MySQL).
 - Git & GitHub → Version control
 
 # Langkah Clone Repository (Menyalin Project)
-
-# Clone digunakan untuk menyalin project dari GitHub ke komputer lokal agar bisa diedit.
+Clone digunakan untuk menyalin project dari GitHub ke komputer lokal agar bisa diedit.
 1. Pastikan Git sudah terinstal ---> Digunakan untuk mengelola repository GitHub.
 2. Buka Terminal / CMD / Git Bash / langsung dari cmd juga bisa 
 3. Clone repository: git clone https://github.com/yovanhayon-ctrl/Waste-Bank.git
