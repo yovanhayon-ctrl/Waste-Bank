@@ -14,17 +14,19 @@ Project ini menggunakan HTML, CSS, dan JavaScript tanpa backend (PHP/MySQL).
 # Langkah Clone Repository (Menyalin Project) 
 Berikut langkah-langkah untuk clone dan menjalankan project ini di komputer lokal menggunakan CMD.
 
-#Cara Clone Repository
+**Cara Clone Repository**
 1. Buka **Command Prompt (CMD)** atau **PowerShell**.
 2. Pindah ke direktori tempat kamu ingin menyimpan project:
     ```bash
    cd C:\laragon\www
 3. Clone repository dari GitHub: git clone https://github.com/yovanhayon-ctrl/Waste-Bank.git
-4. Masuk ke folder project: cd Waste-Bank
-5. Cek status repository: git status
-6. Jika ada perubahan file, tambahkan ke staging area: git add .
-7. Commit perubahan:  git commit -m "Menambahkan file codingan dari project lama"
-8. Push ke GitHub: git push origin main
+
+**Cara Push ke GitHub** 
+1. Masuk ke folder project: cd Waste-Bank
+2. Cek status repository: git status
+3. Jika ada perubahan file, tambahkan ke staging area: git add .
+4. Commit perubahan:  git commit -m "Menambahkan file codingan dari project lama"
+5. Push ke GitHub: git push origin main
 
    **Jika melakukan perubahan pada code pada project pastikan "git pull origin main" terlebih dahulu.**
   
