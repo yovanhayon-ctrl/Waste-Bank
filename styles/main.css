@@ -469,6 +469,21 @@ th {
   position: fixed;
   height: 100vh;
   overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
 }
 
 .sidebar-menu {
@@ -508,6 +523,34 @@ th {
 
 .content-header h1 {
   color: #2d5016;
+}
+
+.content-header .header-left {
+  display: none;
+}
+
+/* Mobile menu toggle button styling */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  width: 30px;
+}
+
+.nav-toggle .bar {
+  width: 100%;
+  height: 3px;
+  background-color: #2d5016;
+  margin: 3px 0;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+.sidebar .nav-toggle .bar {
+  background-color: white;
 }
 
 /* Dashboard Stats Grid */
@@ -641,10 +684,39 @@ th {
     width: 100%;
     height: auto;
     position: relative;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-header {
+    flex-wrap: wrap;
+  }
+
+  .sidebar-header h2 {
+    flex: 1;
+    text-align: left;
+  }
+
+  .sidebar .nav-toggle {
+    display: flex;
   }
 
   .main-content {
     margin-left: 0;
+    padding: 1rem;
+  }
+
+  .content-header {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .content-header .header-left {
+    display: block;
   }
 
   .dashboard {
@@ -745,10 +817,39 @@ th {
     width: 100%;
     height: auto;
     position: relative;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-header {
+    flex-wrap: wrap;
+  }
+
+  .sidebar-header h2 {
+    flex: 1;
+    text-align: left;
+  }
+
+  .sidebar .nav-toggle {
+    display: flex;
   }
 
   .main-content {
     margin-left: 0;
+    padding: 1.5rem;
+  }
+
+  .content-header {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .content-header .header-left {
+    display: block;
   }
 
   .dashboard {
@@ -849,10 +950,39 @@ th {
     width: 100%;
     height: auto;
     position: relative;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-header {
+    flex-wrap: wrap;
+  }
+
+  .sidebar-header h2 {
+    flex: 1;
+    text-align: left;
+  }
+
+  .sidebar .nav-toggle {
+    display: flex;
   }
 
   .main-content {
     margin-left: 0;
+    padding: 1.8rem;
+  }
+
+  .content-header {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .content-header .header-left {
+    display: block;
   }
 
   .dashboard {

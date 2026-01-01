@@ -5,30 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan - Bank Sampah</title>
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .chart-container {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            height: 400px;
-            margin: 2rem 0;
-        }
-
-        .dashboard-charts {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-    </style>
 </head>
 <body>
     <div class="dashboard">
         <!-- Sidebar -->
-        <div class="sidebar">
-            <h2>Admin Panel</h2>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <button class="nav-toggle" id="sidebar-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
             <ul class="sidebar-menu">
                 <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="customers.html"><i class="fas fa-users"></i> Manajemen Nasabah</a></li>
@@ -46,6 +37,13 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="content-header">
+                <div class="header-left">
+                    <button class="nav-toggle" id="mobile-menu-toggle">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
                 <h1>Laporan</h1>
             </div>
             
@@ -128,11 +126,57 @@
                 window.location.href = '../login.html';
                 return;
             }
-            
+
             // Logout functionality
             document.getElementById('logoutBtn').addEventListener('click', function(e) {
                 e.preventDefault();
                 logout();
+            });
+
+            // Mobile sidebar toggle functionality
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+
+            // Function to toggle sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+            }
+
+            // Add event listeners for sidebar toggle buttons
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+            }
+
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+            }
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnToggle = event.target === sidebarToggle || event.target === mobileMenuToggle ||
+                                        sidebarToggle.contains(event.target) || mobileMenuToggle.contains(event.target);
+
+                if (!isClickInsideSidebar && !isClickOnToggle && window.innerWidth <= 840) {
+                    sidebar.classList.remove('active');
+                }
+            });
+
+            // Handle window resize to ensure proper sidebar state
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 1025) {
+                    sidebar.classList.remove('active'); // Ensure sidebar is always visible on desktop
+                } else {
+                    // On mobile/tablet, keep sidebar hidden by default unless explicitly opened
+                    sidebar.classList.remove('active');
+                }
             });
             
             // Add event listeners
