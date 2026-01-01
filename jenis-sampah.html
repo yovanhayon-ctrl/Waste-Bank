@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jenis dan Harga Sampah - Bank Sampah</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/jenis-sampah.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <a href="index.html">
+            <img src="img/logo.png" alt="Logo Bank Sampah" class="logo" />
+          </a>
+        </div>
+        <div class="nav-menu" id="nav-menu">
+          <a href="index.html" class="nav-link">Beranda</a>
+          <a href="tentang.html" class="nav-link">Tentang Kami</a>
+          <a href="jenis-sampah.html" class="nav-link active">Jenis Sampah</a>
+          <a href="cara-menabung.html" class="nav-link">Cara Menabung</a>
+          <a href="cek-saldo.html" class="nav-link">Cek Saldo</a>
+          <!-- <a href="faq.html" class="nav-link">FAQ</a> -->
+          <a href="kontak.html" class="nav-link">Kontak</a>
+          <a href="login.html" class="nav-link btn-login">Login</a>
+        </div>
+        <div class="nav-toggle" id="mobile-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Waste Types Section -->
+    <section class="waste-types">
+      <div class="container">
+        <h1>Jenis dan Harga Sampah</h1>
+        <p>
+          Berikut adalah jenis-jenis sampah yang kami terima beserta harga per
+          kilogramnya:
+        </p>
+
+        <div class="table-container">
+          <table id="wasteTable">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Jenis Sampah</th>
+                <th>Harga per Kg</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="wasteTableBody">
+              <!-- Waste types will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="waste-guidelines">
+          <h2>Petunjuk Pengumpulan Sampah</h2>
+          <div class="guidelines-grid">
+            <div class="guideline-card">
+              <i class="fas fa-sun fa-2x"></i>
+              <p>pastikan sampah dalam keadaan kering</p>
+            </div>
+            <div class="guideline-card">
+              <i class="fas fa-soap fa-2x"></i>
+              <p>Bersihkan dari sisa makanan atau minuman</p>
+            </div>
+            <div class="guideline-card">
+              <i class="fas fa-sort fa-2x"></i>
+              <p>Pisahkan sampah berdasarkan jenisnya</p>
+            </div>
+            <div class="guideline-card">
+              <i class="fas fa-wind fa-2x"></i>
+              <p>Usahakan sampah tidak bau atau busuk</p>
+            </div>
+            <div class="guideline-card">
+              <i class="fas fa-compress fa-2x"></i>
+              <p>Plastik botol bisa ditekan agar lebih ringkas</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Bank Sampah</h3>
+            <p>
+              Menabung sampah untuk kehidupan yang lebih baik dan lingkungan
+              yang bersih.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h4>Tautan Cepat</h4>
+            <ul>
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="tentang.html">Tentang Kami</a></li>
+              <li><a href="jenis-sampah.html">Jenis Sampah</a></li>
+              <li><a href="cek-saldo.html">Cek Saldo</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Kontak</h4>
+            <p>
+              <i class="fas fa-map-marker-alt"></i> Jl. Lingkungan Bersih No.
+              123
+            </p>
+            <p><i class="fas fa-phone"></i> (021) 12345678</p>
+            <p><i class="fas fa-envelope"></i> info@banksampah.id</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Bank Sampah. Semua Hak Dilindungi.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/jenis-sampah.js"></script>
+  </body>
+</html>

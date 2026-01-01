@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Jenis Sampah - Bank Sampah</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Manajemen Nasabah</a></li>
+                <li><a href="waste-types.html" class="active"><i class="fas fa-trash-alt"></i> Jenis Sampah</a></li>
+                <li><a href="deposits.html"><i class="fas fa-donate"></i> Setor Sampah</a></li>
+                <li><a href="withdrawals.html"><i class="fas fa-money-bill-wave"></i> Penarikan</a></li>
+                <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Riwayat Transaksi</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i> Laporan</a></li>
+                <li><a href="admins.html"><i class="fas fa-user-shield"></i> Manajemen Admin</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Pengaturan Sistem</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Manajemen Jenis Sampah</h1>
+                <button class="btn btn-primary" id="addWasteTypeBtn">Tambah Jenis Sampah</button>
+            </div>
+            
+            <div class="table-container">
+                <table id="wasteTypesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama Sampah</th>
+                            <th>Harga per Kg</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wasteTypesTableBody">
+                        <!-- Waste types will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Add/Edit Waste Type Modal -->
+            <div id="wasteTypeModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2 id="wasteTypeModalTitle">Tambah Jenis Sampah</h2>
+                    <form id="wasteTypeForm">
+                        <input type="hidden" id="wasteTypeId">
+                        <div class="form-group">
+                            <label for="wasteTypeName">Nama Jenis Sampah</label>
+                            <input type="text" id="wasteTypeName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="wasteTypePrice">Harga per Kg (Rp)</label>
+                            <input type="number" id="wasteTypePrice" class="form-control" required min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="wasteTypeStatus">Status</label>
+                            <select id="wasteTypeStatus" class="form-control" required>
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Tidak Aktif</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in as admin
+            const isAdmin = localStorage.getItem('isAdminLoggedIn');
+            if (isAdmin !== 'true') {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Add waste type button
+            document.getElementById('addWasteTypeBtn').addEventListener('click', function() {
+                document.getElementById('wasteTypeModalTitle').textContent = 'Tambah Jenis Sampah';
+                document.getElementById('wasteTypeForm').reset();
+                document.getElementById('wasteTypeId').value = '';
+                document.getElementById('wasteTypeModal').style.display = 'block';
+            });
+            
+            // Close modal
+            document.querySelector('.close').addEventListener('click', function() {
+                document.getElementById('wasteTypeModal').style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('wasteTypeModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Form submission
+            document.getElementById('wasteTypeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('wasteTypeId').value;
+                const name = document.getElementById('wasteTypeName').value;
+                const price = parseFloat(document.getElementById('wasteTypePrice').value);
+                const status = document.getElementById('wasteTypeStatus').value;
+                
+                const wasteTypes = getWasteTypes();
+                
+                if (id) {
+                    // Edit existing waste type
+                    const wasteTypeIndex = wasteTypes.findIndex(w => w.id === parseInt(id));
+                    if (wasteTypeIndex !== -1) {
+                        wasteTypes[wasteTypeIndex] = {
+                            ...wasteTypes[wasteTypeIndex],
+                            name,
+                            price,
+                            status
+                        };
+                    }
+                } else {
+                    // Add new waste type
+                    const newWasteType = {
+                        id: wasteTypes.length > 0 ? Math.max(...wasteTypes.map(w => w.id)) + 1 : 1,
+                        name,
+                        price,
+                        status,
+                        unit: 'kg'
+                    };
+                    
+                    wasteTypes.push(newWasteType);
+                }
+                
+                localStorage.setItem('wasteTypes', JSON.stringify(wasteTypes));
+                document.getElementById('wasteTypeModal').style.display = 'none';
+                loadWasteTypesTable();
+            });
+            
+            // Load waste types table
+            loadWasteTypesTable();
+        });
+        
+        function loadWasteTypesTable() {
+            const wasteTypes = getWasteTypes();
+            const tableBody = document.getElementById('wasteTypesTableBody');
+            
+            if (wasteTypes.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5">Tidak ada data jenis sampah</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            wasteTypes.forEach(wasteType => {
+                const row = document.createElement('tr');
+                
+                // Format price
+                const formattedPrice = formatCurrency(wasteType.price);
+                
+                // Status badge
+                const statusClass = wasteType.status === 'active' ? 'status-active' : 'status-inactive';
+                const statusText = wasteType.status === 'active' ? 'Aktif' : 'Tidak Aktif';
+                
+                row.innerHTML = `
+                    <td>${wasteType.id}</td>
+                    <td>${wasteType.name}</td>
+                    <td>${formattedPrice}</td>
+                    <td><span class="${statusClass}">${statusText}</span></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm edit-waste-type" data-id="${wasteType.id}">Edit</button>
+                        <button class="btn btn-danger btn-sm delete-waste-type" data-id="${wasteType.id}">Hapus</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-waste-type').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editWasteType(id);
+                });
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-waste-type').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    deleteWasteType(id);
+                });
+            });
+        }
+        
+        function editWasteType(id) {
+            const wasteTypes = getWasteTypes();
+            const wasteType = wasteTypes.find(w => w.id === parseInt(id));
+            
+            if (wasteType) {
+                document.getElementById('wasteTypeModalTitle').textContent = 'Edit Jenis Sampah';
+                document.getElementById('wasteTypeId').value = wasteType.id;
+                document.getElementById('wasteTypeName').value = wasteType.name;
+                document.getElementById('wasteTypePrice').value = wasteType.price;
+                document.getElementById('wasteTypeStatus').value = wasteType.status;
+                document.getElementById('wasteTypeModal').style.display = 'block';
+            }
+        }
+        
+        function deleteWasteType(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus jenis sampah ini?')) {
+                let wasteTypes = getWasteTypes();
+                wasteTypes = wasteTypes.filter(w => w.id !== parseInt(id));
+                localStorage.setItem('wasteTypes', JSON.stringify(wasteTypes));
+                loadWasteTypesTable();
+            }
+        }
+    </script>
+    
+    <style>
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .btn-sm {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+        }
+    </style>
+</body>
+</html>

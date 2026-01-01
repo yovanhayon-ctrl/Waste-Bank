@@ -1,0 +1,227 @@
+/* Login Section */
+.login-section {
+  padding: 4rem 0 2rem 0;
+}
+
+.form-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.form-footer p {
+  margin: 0.75rem 0;
+  display: inline-block;
+}
+
+/* 1. SMALL PHONES 361–480px */
+@media (min-width: 361px) and (max-width: 480px) {
+  .login-section {
+    padding: 3rem 0 1rem 0;
+  }
+
+  .form-container {
+    margin: 1rem;
+    padding: 1.2rem;
+  }
+
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .form-control {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .form-footer p {
+    font-size: 0.9rem;
+    margin: 0.6rem 0;
+  }
+}
+
+/* 2. MEDIUM PHONES 481–576px */
+@media (min-width: 481px) and (max-width: 576px) {
+  .login-section {
+    padding: 3.5rem 0 1.5rem 0;
+  }
+
+  .form-container {
+    margin: 1rem;
+    padding: 1.3rem;
+  }
+
+  .form-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.3rem;
+  }
+
+  .form-group label {
+    font-size: 0.95rem;
+  }
+
+  .form-control {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .form-footer p {
+    font-size: 0.95rem;
+    margin: 0.65rem 0;
+  }
+}
+
+/* 3. TABLET PORTRAIT 577–840px */
+@media (min-width: 577px) and (max-width: 840px) {
+  .login-section {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .login-section .container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 2.5rem;
+  }
+
+  .form-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    font-size: 1.1rem;
+  }
+
+  .form-control {
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .form-footer p {
+    font-size: 1.1rem;
+    margin: 0.8rem 0;
+  }
+}
+
+/* 4. TABLET LANDSCAPE / SMALL LAPTOP 841–1024px */
+@media (min-width: 841px) and (max-width: 1024px) {
+  .login-section {
+    padding: 4rem 0 2rem 0;
+  }
+
+  .form-container {
+    margin: 1.5rem auto;
+    padding: 1.6rem;
+  }
+
+  .form-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    font-size: 1.05rem;
+  }
+
+  .form-control {
+    padding: 0.8rem;
+    font-size: 1.05rem;
+  }
+
+  .form-footer p {
+    font-size: 1.05rem;
+    margin: 0.75rem 0;
+  }
+}
+
+/* 5. LAPTOP 1025–1365px */
+@media (min-width: 1025px) and (max-width: 1365px) {
+  .login-section {
+    padding: 4rem 0 2rem 0;
+  }
+
+  .form-container {
+    padding: 1.8rem;
+  }
+
+  .form-container h2 {
+    font-size: 1.9rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.6rem;
+  }
+
+  .form-group label {
+    font-size: 1.1rem;
+  }
+
+  .form-control {
+    padding: 0.82rem;
+    font-size: 1.1rem;
+  }
+
+  .form-footer p {
+    font-size: 1.1rem;
+    margin: 0.8rem 0;
+  }
+}
+
+/* Extra Large Desktop */
+@media screen and (min-width: 1366px) {
+  .login-section {
+    padding: 4rem 0 2rem 0;
+  }
+
+  .form-container {
+    padding: 2rem;
+  }
+
+  .form-container h2 {
+    font-size: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    font-size: 1.1rem;
+  }
+
+  .form-control {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+
+  .form-footer p {
+    font-size: 1.1rem;
+    margin: 0.75rem 0;
+  }
+}

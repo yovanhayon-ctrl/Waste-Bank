@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Nasabah - Bank Sampah</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/profil.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <a href="index.html">
+            <img src="img/logo.png" alt="Logo Bank Sampah" class="logo" />
+          </a>
+        </div>
+        <div class="nav-menu" id="nav-menu">
+          <a href="index.html" class="nav-link">Beranda</a>
+          <a href="tentang.html" class="nav-link">Tentang Kami</a>
+          <a href="jenis-sampah.html" class="nav-link">Jenis Sampah</a>
+          <a href="cara-menabung.html" class="nav-link">Cara Menabung</a>
+          <a href="cek-saldo.html" class="nav-link">Cek Saldo</a>
+          <a href="faq.html" class="nav-link">FAQ</a>
+          <a href="kontak.html" class="nav-link">Kontak</a>
+          <a href="login.html" class="nav-link btn-login">Login</a>
+        </div>
+        <div class="nav-toggle" id="mobile-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+      <div class="container">
+        <h1>Profil Nasabah</h1>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <i class="fas fa-user-circle fa-5x"></i>
+            </div>
+            <div class="profile-info">
+              <h2 id="customerName">Nama Nasabah</h2>
+              <p id="customerUsername" class="text-muted">@username</p>
+            </div>
+          </div>
+
+          <div class="profile-details">
+            <div class="detail-item">
+              <label>Email:</label>
+              <span id="customerEmail">email@contoh.com</span>
+            </div>
+            <div class="detail-item">
+              <label>Nomor Telepon:</label>
+              <span id="customerPhone">081234567890</span>
+            </div>
+            <div class="detail-item">
+              <label>Alamat:</label>
+              <span id="customerAddress">Alamat lengkap nasabah</span>
+            </div>
+            <div class="detail-item">
+              <label>Saldo Saat Ini:</label>
+              <span id="customerBalance" class="balance-amount">Rp 0</span>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button class="btn btn-primary" id="editProfileBtn">
+              Edit Profil
+            </button>
+            <button class="btn btn-secondary" id="changePasswordBtn">
+              Ganti Password
+            </button>
+            <button class="btn btn-danger" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+
+        <!-- Edit Profile Modal -->
+        <div id="editProfileModal" class="modal" style="display: none">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Profil</h2>
+            <form id="editProfileForm">
+              <div class="form-group">
+                <label for="editName">Nama Lengkap</label>
+                <input
+                  type="text"
+                  id="editName"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="editEmail">Email</label>
+                <input
+                  type="email"
+                  id="editEmail"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="editPhone">Nomor Telepon</label>
+                <input
+                  type="tel"
+                  id="editPhone"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="editAddress">Alamat</label>
+                <input
+                  type="text"
+                  id="editAddress"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Simpan Perubahan
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Change Password Modal -->
+        <div id="changePasswordModal" class="modal" style="display: none">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ganti Password</h2>
+            <form id="changePasswordForm">
+              <div class="form-group">
+                <label for="currentPassword">Password Saat Ini</label>
+                <input
+                  type="password"
+                  id="currentPassword"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="newPassword">Password Baru</label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="confirmNewPassword">Konfirmasi Password Baru</label>
+                <input
+                  type="password"
+                  id="confirmNewPassword"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Ganti Password
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Bank Sampah</h3>
+            <p>
+              Menabung sampah untuk kehidupan yang lebih baik dan lingkungan
+              yang bersih.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h4>Tautan Cepat</h4>
+            <ul>
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="tentang.html">Tentang Kami</a></li>
+              <li><a href="jenis-sampah.html">Jenis Sampah</a></li>
+              <li><a href="cek-saldo.html">Cek Saldo</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Kontak</h4>
+            <p>
+              <i class="fas fa-map-marker-alt"></i> Jl. Lingkungan Bersih No.
+              123
+            </p>
+            <p><i class="fas fa-phone"></i> (021) 12345678</p>
+            <p><i class="fas fa-envelope"></i> info@banksampah.id</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Bank Sampah. Semua Hak Dilindungi.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/profil.js"></script>
+  </body>
+</html>

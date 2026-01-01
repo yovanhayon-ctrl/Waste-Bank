@@ -1,0 +1,535 @@
+@import url("../styles/main.css");
+
+/* Hero Section */
+.hero {
+  background: url("../img/home-bg.jpg") no-repeat center center/cover;
+  color: white;
+  padding: 10rem 0 10rem 0;
+  text-align: center;
+}
+
+.hero-container h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-container p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Features Section */
+.features {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+}
+
+.features h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  color: #2d5016;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+.feature-card i {
+  font-size: 3rem;
+  color: #2d5016;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  margin-bottom: 1rem;
+  color: #2d5016;
+}
+
+/* How it works */
+.how-it-works {
+  padding: 4rem 0;
+}
+
+.how-it-works h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  color: #2d5016;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.step {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background-color: #2d5016;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 1rem;
+}
+
+.step h3 {
+  margin-bottom: 1rem;
+  color: #2d5016;
+}
+
+.step p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  text-align: justify;
+}
+
+/* Call to Action */
+.cta {
+  background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+  color: white;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.cta h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.cta p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+}
+
+/* 1. SMALL PHONES 361–480px */
+@media (min-width: 361px) and (max-width: 480px) {
+  .hero {
+    padding: 4rem 0;
+  }
+
+  .hero-container h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  .hero-container p {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .features h2,
+  .how-it-works h2,
+  .cta h2 {
+    font-size: 1.6rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .step {
+    padding: 1rem;
+  }
+
+  .step-number {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .step h3 {
+    font-size: 1.1rem;
+  }
+
+  .step p {
+    font-size: 0.8rem;
+  }
+
+  .cta h2 {
+    font-size: 1.4rem;
+  }
+
+  .cta p {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* 2. MEDIUM PHONES 481–576px */
+@media (min-width: 481px) and (max-width: 576px) {
+  .hero {
+    padding: 5rem 0;
+  }
+
+  .hero-container h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .hero-container p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .features h2,
+  .how-it-works h2,
+  .cta h2 {
+    font-size: 1.7rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    gap: 1.2rem;
+  }
+
+  .feature-card {
+    padding: 1.6rem;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  .step {
+    padding: 1rem;
+  }
+
+  .step-number {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+  }
+
+  .step h3 {
+    font-size: 1.15rem;
+  }
+
+  .step p {
+    font-size: 0.85rem;
+  }
+
+  .cta h2 {
+    font-size: 1.5rem;
+  }
+
+  .cta p {
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.3rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* 3. TABLET PORTRAIT 577–840px */
+@media (min-width: 577px) and (max-width: 840px) {
+  .hero {
+    padding: 6rem 0;
+  }
+
+  .hero-container h1 {
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+
+  .hero-container p {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .features h2,
+  .how-it-works h2,
+  .cta h2 {
+    font-size: 2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    padding: 1.8rem;
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+
+  .step {
+    padding: 1.2rem;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .step h3 {
+    font-size: 1.2rem;
+  }
+
+  .step p {
+    font-size: 0.9rem;
+  }
+
+  .cta h2 {
+    font-size: 1.6rem;
+  }
+
+  .cta p {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 0.8rem 1.4rem;
+    font-size: 1rem;
+  }
+}
+
+/* 4. TABLET LANDSCAPE / SMALL LAPTOP 841–1024px */
+@media (min-width: 841px) and (max-width: 1024px) {
+  .hero {
+    padding: 7rem 0;
+  }
+
+  .hero-container h1 {
+    font-size: 2.5rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.8rem;
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .step {
+    padding: 1.4rem;
+  }
+
+  .step-number {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+
+  .step h3 {
+    font-size: 1.3rem;
+  }
+
+  .step p {
+    font-size: 0.95rem;
+  }
+
+  .cta h2 {
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    padding: 0.85rem 1.5rem;
+    font-size: 1.05rem;
+  }
+}
+
+/* 5. LAPTOP 1025–1365px */
+@media (min-width: 1025px) and (max-width: 1365px) {
+  .container {
+    max-width: 1100px;
+  }
+
+  .nav-container {
+    max-width: 1100px;
+  }
+
+  .hero {
+    padding: 8rem 0;
+  }
+
+  .hero-container h1 {
+    font-size: 2.8rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem;
+  }
+
+  .step {
+    padding: 1.5rem;
+  }
+
+  .step-number {
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+  }
+
+  .step h3 {
+    font-size: 1.35rem;
+  }
+
+  .step p {
+    font-size: 1rem;
+  }
+
+  .cta h2 {
+    font-size: 2rem;
+  }
+
+  .btn {
+    padding: 0.9rem 1.6rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Extra Large Desktop */
+@media screen and (min-width: 1366px) {
+  .hero {
+    padding: 10rem 0;
+  }
+
+  .hero-container h1 {
+    font-size: 3rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .steps {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .step {
+    padding: 1.5rem;
+  }
+
+  .step-number {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .step h3 {
+    font-size: 1.4rem;
+  }
+
+  .step p {
+    font-size: 1rem;
+  }
+
+  .cta h2 {
+    font-size: 2.2rem;
+  }
+
+  .btn {
+    padding: 0.9rem 1.7rem;
+    font-size: 1.1rem;
+  }
+}

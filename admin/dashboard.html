@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Admin - Bank Sampah</title>
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.html" class="active"
+              ><i class="fas fa-tachometer-alt"></i> Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="customers.html"
+              ><i class="fas fa-users"></i> Manajemen Nasabah</a
+            >
+          </li>
+          <li>
+            <a href="waste-types.html"
+              ><i class="fas fa-trash-alt"></i> Jenis Sampah</a
+            >
+          </li>
+          <li>
+            <a href="deposits.html"
+              ><i class="fas fa-donate"></i> Setor Sampah</a
+            >
+          </li>
+          <li>
+            <a href="withdrawals.html"
+              ><i class="fas fa-money-bill-wave"></i> Penarikan</a
+            >
+          </li>
+          <li>
+            <a href="transactions.html"
+              ><i class="fas fa-exchange-alt"></i> Riwayat Transaksi</a
+            >
+          </li>
+          <li>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i> Laporan</a>
+          </li>
+          <li>
+            <a href="admins.html"
+              ><i class="fas fa-user-shield"></i> Manajemen Admin</a
+            >
+          </li>
+          <li>
+            <a href="settings.html"
+              ><i class="fas fa-cog"></i> Pengaturan Sistem</a
+            >
+          </li>
+          <li>
+            <a href="#" id="logoutBtn"
+              ><i class="fas fa-sign-out-alt"></i> Logout</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="content-header">
+          <h1>Dashboard</h1>
+        </div>
+
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <div class="stat-info">
+              <h3 id="totalCustomers">0</h3>
+              <p>Total Nasabah</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-trash-alt"></i>
+            <div class="stat-info">
+              <h3 id="totalWasteTypes">0</h3>
+              <p>Jenis Sampah</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-wallet"></i>
+            <div class="stat-info">
+              <h3 id="totalBalance">Rp 0</h3>
+              <p>Total Saldo Nasabah</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-exchange-alt"></i>
+            <div class="stat-info">
+              <h3 id="totalTransactions">0</h3>
+              <p>Total Transaksi</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-charts">
+          <div class="chart-container">
+            <h3>Aktivitas Transaksi 7 Hari Terakhir</h3>
+            <canvas id="transactionChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if user is logged in as admin
+        const isAdmin = localStorage.getItem("isAdminLoggedIn");
+        if (isAdmin !== "true") {
+          window.location.href = "../login.html";
+          return;
+        }
+
+        // Logout functionality
+        document
+          .getElementById("logoutBtn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            logout();
+          });
+
+        // Load dashboard statistics
+        loadDashboardStats();
+
+        // Load transaction chart
+        loadTransactionChart();
+      });
+
+      function loadDashboardStats() {
+        const customers = getCustomers();
+        const wasteTypes = getWasteTypes();
+        const transactions = getTransactions();
+
+        // Calculate total balance
+        const totalBalance = customers.reduce(
+          (sum, customer) => sum + customer.balance,
+          0
+        );
+
+        // Update stats
+        document.getElementById("totalCustomers").textContent =
+          customers.length;
+        document.getElementById("totalWasteTypes").textContent =
+          wasteTypes.length;
+        document.getElementById("totalBalance").textContent =
+          formatCurrency(totalBalance);
+        document.getElementById("totalTransactions").textContent =
+          transactions.length;
+      }
+
+      function loadTransactionChart() {
+        const transactions = getTransactions();
+
+        // Get the last 7 days
+        const last7Days = [];
+        for (let i = 6; i >= 0; i--) {
+          const date = new Date();
+          date.setDate(date.getDate() - i);
+          last7Days.push(date.toDateString());
+        }
+
+        // Count transactions per day
+        const transactionCounts = last7Days.map((day) => {
+          return transactions.filter(
+            (t) => new Date(t.date).toDateString() === day
+          ).length;
+        });
+
+        // Get canvas element and create chart
+        const ctx = document
+          .getElementById("transactionChart")
+          .getContext("2d");
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: last7Days.map(
+              (day) => day.split(" ")[2] + " " + day.split(" ")[1]
+            ), // Day + Month
+            datasets: [
+              {
+                label: "Jumlah Transaksi",
+                data: transactionCounts,
+                borderColor: "#2d5016",
+                backgroundColor: "rgba(45, 80, 22, 0.1)",
+                borderWidth: 2,
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

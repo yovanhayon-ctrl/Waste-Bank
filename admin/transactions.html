@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Transaksi - Bank Sampah</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Manajemen Nasabah</a></li>
+                <li><a href="waste-types.html"><i class="fas fa-trash-alt"></i> Jenis Sampah</a></li>
+                <li><a href="deposits.html"><i class="fas fa-donate"></i> Setor Sampah</a></li>
+                <li><a href="withdrawals.html"><i class="fas fa-money-bill-wave"></i> Penarikan</a></li>
+                <li><a href="transactions.html" class="active"><i class="fas fa-exchange-alt"></i> Riwayat Transaksi</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i> Laporan</a></li>
+                <li><a href="admins.html"><i class="fas fa-user-shield"></i> Manajemen Admin</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Pengaturan Sistem</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Riwayat Transaksi</h1>
+            </div>
+            
+            <div class="filters">
+                <div class="form-group">
+                    <label for="startDate">Tanggal Awal</label>
+                    <input type="date" id="startDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">Tanggal Akhir</label>
+                    <input type="date" id="endDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="customerFilter">Filter Nasabah</label>
+                    <select id="customerFilter" class="form-control">
+                        <option value="">Semua Nasabah</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="typeFilter">Jenis Transaksi</label>
+                    <select id="typeFilter" class="form-control">
+                        <option value="">Semua Jenis</option>
+                        <option value="deposit">Setor Sampah</option>
+                        <option value="withdrawal">Penarikan</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="filterBtn">Filter</button>
+                <button class="btn btn-secondary" id="resetFilterBtn">Reset</button>
+            </div>
+            
+            <div class="table-container">
+                <table id="transactionsTable">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Nama Nasabah</th>
+                            <th>Jenis</th>
+                            <th>Nama Sampah</th>
+                            <th>Berat (Kg)</th>
+                            <th>Nominal</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionsTableBody">
+                        <!-- Transactions will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in as admin
+            const isAdmin = localStorage.getItem('isAdminLoggedIn');
+            if (isAdmin !== 'true') {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Populate customer filter
+            populateCustomerFilter();
+            
+            // Add event listeners
+            document.getElementById('filterBtn').addEventListener('click', filterTransactions);
+
+            // Make the reset button reset all data instead of just filters
+            document.getElementById('resetFilterBtn').addEventListener('click', resetAllData);
+            
+            // Load all transactions initially
+            loadTransactionsTable();
+        });
+        
+        function populateCustomerFilter() {
+            const customers = getCustomers();
+            const customerSelect = document.getElementById('customerFilter');
+            
+            customerSelect.innerHTML = '<option value="">Semua Nasabah</option>';
+            
+            customers.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.id;
+                option.textContent = `${customer.name} (${customer.username})`;
+                customerSelect.appendChild(option);
+            });
+        }
+        
+        function filterTransactions() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const customerId = document.getElementById('customerFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+
+            let transactions = getTransactions();
+
+            // Filter by date range
+            if (startDate) {
+                // Convert to date objects and normalize to start of day
+                const start = new Date(startDate);
+                start.setHours(0, 0, 0, 0);
+
+                transactions = transactions.filter(t => {
+                    const transactionDate = new Date(t.date);
+                    transactionDate.setHours(0, 0, 0, 0);
+                    return transactionDate >= start;
+                });
+            }
+
+            if (endDate) {
+                // Convert to date objects and normalize to end of day
+                const end = new Date(endDate);
+                end.setHours(23, 59, 59, 999);
+
+                transactions = transactions.filter(t => {
+                    const transactionDate = new Date(t.date);
+                    transactionDate.setHours(23, 59, 59, 999);
+                    return transactionDate <= end;
+                });
+            }
+
+            // Filter by customer
+            if (customerId) {
+                transactions = transactions.filter(t => t.customerId === parseInt(customerId));
+            }
+
+            // Filter by transaction type
+            if (typeFilter) {
+                transactions = transactions.filter(t => t.type === typeFilter);
+            }
+
+            // Sort by date (newest first)
+            transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            displayTransactions(transactions);
+        }
+        
+        function resetFilters() {
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            document.getElementById('customerFilter').value = '';
+            document.getElementById('typeFilter').value = '';
+            loadTransactionsTable();
+        }
+
+        function resetAllData() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua data transaksi? Tindakan ini tidak dapat dibatalkan.')) {
+                try {
+                    // Clear all transactions data
+                    localStorage.setItem('transactions', JSON.stringify([]));
+
+                    // Verify that the data was cleared
+                    const transactionsAfterClear = JSON.parse(localStorage.getItem('transactions') || '[]');
+                    console.log('Transactions after clear:', transactionsAfterClear);
+
+                    // Reload the table to show empty state
+                    loadTransactionsTable();
+
+                    // Also reset filters to show clean state
+                    resetFilters();
+
+                    alert('Semua data transaksi telah dihapus.');
+                } catch (error) {
+                    console.error('Error clearing transactions:', error);
+                    alert('Terjadi kesalahan saat menghapus data transaksi.');
+                }
+            }
+        }
+        
+        function loadTransactionsTable() {
+            let transactions = getTransactions();
+            
+            // Sort by date (newest first)
+            transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            displayTransactions(transactions);
+        }
+        
+        function displayTransactions(transactions) {
+            const tableBody = document.getElementById('transactionsTableBody');
+            
+            if (transactions.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7">Tidak ada transaksi</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            transactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                
+                // Get customer name
+                const customer = getCustomerById(transaction.customerId);
+                const customerName = customer ? customer.name : 'Nasabah Tidak Ditemukan';
+                
+                // Format date
+                const formattedDate = formatDate(transaction.date);
+                
+                // Format nominal
+                const formattedNominal = formatCurrency(transaction.amount);
+                
+                // Determine transaction type text
+                const typeText = transaction.type === 'deposit' ? 'Setor Sampah' : 'Penarikan';
+                
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${customerName}</td>
+                    <td>${typeText}</td>
+                    <td>${transaction.wasteName || '-'}</td>
+                    <td>${transaction.weight ? transaction.weight + ' kg' : '-'}</td>
+                    <td>${formattedNominal}</td>
+                    <td>${transaction.description || '-'}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>

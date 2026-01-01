@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manajemen Admin - Bank Sampah</title>
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.html"
+              ><i class="fas fa-tachometer-alt"></i> Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="customers.html"
+              ><i class="fas fa-users"></i> Manajemen Nasabah</a
+            >
+          </li>
+          <li>
+            <a href="waste-types.html"
+              ><i class="fas fa-trash-alt"></i> Jenis Sampah</a
+            >
+          </li>
+          <li>
+            <a href="deposits.html"
+              ><i class="fas fa-donate"></i> Setor Sampah</a
+            >
+          </li>
+          <li>
+            <a href="withdrawals.html"
+              ><i class="fas fa-money-bill-wave"></i> Penarikan</a
+            >
+          </li>
+          <li>
+            <a href="transactions.html"
+              ><i class="fas fa-exchange-alt"></i> Riwayat Transaksi</a
+            >
+          </li>
+          <li>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i> Laporan</a>
+          </li>
+          <li>
+            <a href="admins.html" class="active"
+              ><i class="fas fa-user-shield"></i> Manajemen Admin</a
+            >
+          </li>
+          <li>
+            <a href="settings.html"
+              ><i class="fas fa-cog"></i> Pengaturan Sistem</a
+            >
+          </li>
+          <li>
+            <a href="index.html" id="logoutBtn"
+              ><i class="fas fa-sign-out-alt"></i> Logout</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="content-header">
+          <h1>Manajemen Admin</h1>
+          <button class="btn btn-primary" id="addAdminBtn">Tambah Admin</button>
+        </div>
+
+
+        <div class="table-container">
+          <table id="adminsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Tanggal Dibuat</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="adminsTableBody">
+              <!-- Admins will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Add/Edit Admin Modal -->
+        <div id="adminModal" class="modal" style="display: none">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="adminModalTitle">Tambah Admin</h2>
+            <form id="adminForm">
+              <input type="hidden" id="adminId" />
+              <div class="form-group">
+                <label for="adminName">Nama Lengkap</label>
+                <input
+                  type="text"
+                  id="adminName"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="adminUsername">Username</label>
+                <input
+                  type="text"
+                  id="adminUsername"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="adminEmail">Email</label>
+                <input
+                  type="email"
+                  id="adminEmail"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input
+                  type="password"
+                  id="adminPassword"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Konfirmasi Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Simpan</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if user is logged in as admin
+        const isAdmin = localStorage.getItem("isAdminLoggedIn");
+        if (isAdmin !== "true") {
+          window.location.href = "../login.html";
+          return;
+        }
+
+        // Logout functionality
+        document
+          .getElementById("logoutBtn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            logout();
+          });
+
+        // Add admin button
+        document
+          .getElementById("addAdminBtn")
+          .addEventListener("click", function () {
+            document.getElementById("adminModalTitle").textContent =
+              "Tambah Admin";
+            document.getElementById("adminForm").reset();
+            document.getElementById("adminId").value = "";
+            document.getElementById("adminPassword").required = true;
+            document.getElementById("adminModal").style.display = "block";
+          });
+
+        // Close modal
+        document.querySelector(".close").addEventListener("click", function () {
+          document.getElementById("adminModal").style.display = "none";
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener("click", function (event) {
+          const modal = document.getElementById("adminModal");
+          if (event.target === modal) {
+            modal.style.display = "none";
+          }
+        });
+
+        // Form submission
+        document
+          .getElementById("adminForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const id = document.getElementById("adminId").value;
+            const name = document.getElementById("adminName").value;
+            const username = document.getElementById("adminUsername").value;
+            const email = document.getElementById("adminEmail").value;
+            const password = document.getElementById("adminPassword").value;
+            const confirmPassword =
+              document.getElementById("confirmPassword").value;
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+              alert("Password tidak cocok!");
+              return;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+              alert("Email tidak valid!");
+              return;
+            }
+
+            const adminData = getAdminData();
+            const admins = adminData.admins;
+
+            if (id) {
+              // Edit existing admin
+              const adminIndex = admins.findIndex((a) => a.id === parseInt(id));
+              if (adminIndex !== -1) {
+                admins[adminIndex] = {
+                  ...admins[adminIndex],
+                  name,
+                  username,
+                  email,
+                };
+
+                // Update password only if provided
+                if (password) {
+                  admins[adminIndex].password = password;
+                }
+              }
+            } else {
+              // Add new admin
+              // Check if username already exists
+              const existingAdmin = admins.find((a) => a.username === username);
+              if (existingAdmin) {
+                alert("Username sudah digunakan!");
+                return;
+              }
+
+              const newAdmin = {
+                id:
+                  admins.length > 0
+                    ? Math.max(...admins.map((a) => a.id)) + 1
+                    : 1,
+                name,
+                username,
+                email,
+                password,
+                created_at: new Date().toISOString(),
+              };
+
+              admins.push(newAdmin);
+            }
+
+            localStorage.setItem("adminData", JSON.stringify(adminData));
+            document.getElementById("adminModal").style.display = "none";
+            loadAdminsTable();
+          });
+
+        // Load admins table
+        loadAdminsTable();
+      });
+
+      function loadAdminsTable() {
+        const adminData = getAdminData();
+        const admins = adminData.admins;
+        const tableBody = document.getElementById("adminsTableBody");
+
+        if (admins.length === 0) {
+          tableBody.innerHTML =
+            '<tr><td colspan="6">Tidak ada data admin</td></tr>';
+          return;
+        }
+
+        tableBody.innerHTML = "";
+
+        admins.forEach((admin) => {
+          const row = document.createElement("tr");
+
+          // Format date
+          const formattedDate = formatDate(admin.created_at || admin.created_at);
+
+          row.innerHTML = `
+                    <td>${admin.id}</td>
+                    <td>${admin.name || admin.username}</td>
+                    <td>${admin.username}</td>
+                    <td>${admin.email || 'N/A'}</td>
+                    <td>${formattedDate}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm edit-admin" data-id="${admin.id}">Edit</button>
+                        <button class="btn btn-danger btn-sm delete-admin" data-id="${admin.id}">Hapus</button>
+                    </td>
+                `;
+
+          tableBody.appendChild(row);
+        });
+
+        // Add event listeners to edit buttons
+        document.querySelectorAll(".edit-admin").forEach((button) => {
+          button.addEventListener("click", function () {
+            const id = this.getAttribute("data-id");
+            editAdmin(id);
+          });
+        });
+
+        // Add event listeners to delete buttons
+        document.querySelectorAll(".delete-admin").forEach((button) => {
+          button.addEventListener("click", function () {
+            const id = this.getAttribute("data-id");
+            deleteAdmin(id);
+          });
+        });
+      }
+
+      function editAdmin(id) {
+        const adminData = getAdminData();
+        const admin = adminData.admins.find((a) => a.id === parseInt(id));
+
+        if (admin) {
+          document.getElementById("adminModalTitle").textContent = "Edit Admin";
+          document.getElementById("adminId").value = admin.id;
+          document.getElementById("adminName").value = admin.name || admin.username;
+          document.getElementById("adminUsername").value = admin.username;
+          document.getElementById("adminEmail").value = admin.email || '';
+          document.getElementById("adminPassword").required = false; // Password not required for edit
+          document.getElementById("adminModal").style.display = "block";
+        }
+      }
+
+      function deleteAdmin(id) {
+        if (confirm("Apakah Anda yakin ingin menghapus admin ini?")) {
+          let adminData = getAdminData();
+          adminData.admins = adminData.admins.filter(
+            (a) => a.id !== parseInt(id)
+          );
+          localStorage.setItem("adminData", JSON.stringify(adminData));
+          loadAdminsTable();
+        }
+      }
+
+      function getAdminData() {
+        // Get existing admin data or initialize with default
+        let adminData = JSON.parse(localStorage.getItem("adminData")) || {
+          admins: [],
+        };
+
+        // Check if default admin exists in the array, if not add it
+        const defaultAdminExists = adminData.admins.some(
+          (a) => a.username === "admin"
+        );
+        if (!defaultAdminExists) {
+          const defaultAdmin = JSON.parse(localStorage.getItem("admin")) || {
+            username: "admin",
+            password: "admin123",
+          };
+          adminData.admins.push({
+            id: 1,
+            name: "Super Admin",
+            username: defaultAdmin.username,
+            email: "admin@banksampah.id",
+            created_at: new Date().toISOString(),
+          });
+        }
+
+        return adminData;
+      }
+    </script>
+
+    <style>
+      .current-admin-info {
+        margin-bottom: 2rem;
+      }
+
+      .current-admin-info h2 {
+        color: #2d5016;
+        margin-bottom: 1rem;
+      }
+
+      .modal {
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 600px;
+        position: relative;
+      }
+
+      .close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .btn-sm {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+      }
+    </style>
+  </body>
+</html>

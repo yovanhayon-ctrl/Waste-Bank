@@ -1,0 +1,278 @@
+/* Balance Check Section */
+.balance-check {
+  padding: 4rem 0 2rem 0;
+}
+
+.balance-check h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: #2d5016;
+}
+
+.balance-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.balance-amount {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2d5016;
+  margin: 1rem 0;
+}
+
+.transactions-section {
+  margin-top: 2rem;
+}
+
+.login-prompt {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 2rem 0;
+}
+
+.login-prompt.show {
+  display: flex;
+}
+
+.login-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-icon {
+  color: #2d5016;
+  margin-bottom: 1.5rem;
+}
+
+.login-prompt h2 {
+  color: #2d5016;
+  margin-bottom: 1rem;
+}
+
+.login-prompt p {
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
+.register-link {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.register-link a {
+  color: #2d5016;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* 1. SMALL PHONES 361–480px */
+@media (min-width: 361px) and (max-width: 480px) {
+  .balance-check h1 {
+    font-size: 1.8rem;
+  }
+
+  .balance-card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .Balance-amount {
+    font-size: 2rem;
+  }
+
+  .login-card {
+    padding: 1.8rem;
+    margin: 0 1rem;
+  }
+
+  .login-prompt h2 {
+    font-size: 1.5rem;
+  }
+
+  .login-prompt p {
+    font-size: 0.9rem;
+  }
+
+  .register-link {
+    font-size: 0.85rem;
+  }
+}
+
+/* 2. MEDIUM PHONES 481–576px */
+@media (min-width: 481px) and (max-width: 576px) {
+  .balance-check h1 {
+    font-size: 2rem;
+  }
+
+  .balance-card {
+    padding: 1.7rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .Balance-amount {
+    font-size: 2.2rem;
+  }
+
+  .login-card {
+    padding: 2rem;
+    margin: 0 1rem;
+  }
+
+  .login-prompt h2 {
+    font-size: 1.6rem;
+  }
+
+  .login-prompt p {
+    font-size: 0.95rem;
+  }
+
+  .register-link {
+    font-size: 0.9rem;
+  }
+}
+
+/* 3. TABLET PORTRAIT 577–840px */
+@media (min-width: 577px) and (max-width: 840px) {
+  .balance-check h1 {
+    font-size: 2.2rem;
+  }
+
+  .balance-card {
+    padding: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .Balance-amount {
+    font-size: 2.3rem;
+  }
+
+  .login-card {
+    padding: 2.2rem;
+  }
+
+  .login-prompt h2 {
+    font-size: 1.7rem;
+  }
+
+  .login-prompt p {
+    font-size: 1rem;
+  }
+
+  .register-link {
+    font-size: 0.95rem;
+  }
+}
+
+/* 4. TABLET LANDSCAPE / SMALL LAPTOP 841–1024px */
+@media (min-width: 841px) and (max-width: 1024px) {
+  .balance-check h1 {
+    font-size: 2.3rem;
+  }
+
+  .balance-card {
+    padding: 1.9rem;
+    margin-bottom: 2rem;
+  }
+
+  .Balance-amount {
+    font-size: 2.4rem;
+  }
+
+  .login-card {
+    padding: 2.3rem;
+  }
+
+  .login-prompt h2 {
+    font-size: 1.8rem;
+  }
+
+  .login-prompt p {
+    font-size: 1.05rem;
+  }
+
+  .register-link {
+    font-size: 1rem;
+  }
+}
+
+/* 5. LAPTOP 1025–1365px */
+@media (min-width: 1025px) and (max-width: 1365px) {
+  .balance-check h1 {
+    font-size: 2.4rem;
+  }
+
+  .balance-card {
+    padding: 2.1rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .Balance-amount {
+    font-size: 2.4rem;
+  }
+
+  .login-card {
+    padding: 2.4rem;
+  }
+
+  .login-prompt h2 {
+    font-size: 1.9rem;
+  }
+
+  .login-prompt p {
+    font-size: 1.1rem;
+  }
+
+  .register-link {
+    font-size: 1.05rem;
+  }
+}
+
+/* Extra Large Desktop */
+@media screen and (min-width: 1366px) {
+  .balance-check h1 {
+    font-size: 2.5rem;
+  }
+
+  .balance-card {
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .Balance-amount {
+    font-size: 2.5rem;
+  }
+
+  .login-card {
+    padding: 2.5rem;
+  }
+
+  .login-prompt h2 {
+    font-size: 2rem;
+  }
+
+  .login-prompt p {
+    font-size: 1.1rem;
+  }
+
+  .register-link {
+    font-size: 1.1rem;
+  }
+}

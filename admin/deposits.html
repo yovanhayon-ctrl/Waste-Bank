@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi Setor Sampah - Bank Sampah</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Manajemen Nasabah</a></li>
+                <li><a href="waste-types.html"><i class="fas fa-trash-alt"></i> Jenis Sampah</a></li>
+                <li><a href="deposits.html" class="active"><i class="fas fa-donate"></i> Setor Sampah</a></li>
+                <li><a href="withdrawals.html"><i class="fas fa-money-bill-wave"></i> Penarikan</a></li>
+                <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Riwayat Transaksi</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i> Laporan</a></li>
+                <li><a href="admins.html"><i class="fas fa-user-shield"></i> Manajemen Admin</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Pengaturan Sistem</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Transaksi Setor Sampah</h1>
+            </div>
+            
+            <div class="form-container">
+                <h2>Input Transaksi Setor</h2>
+                <form id="depositForm">
+                    <div class="form-group">
+                        <label for="customerId">Pilih Nasabah</label>
+                        <select id="customerId" class="form-control" required>
+                            <option value="">Pilih Nasabah</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="wasteTypeId">Jenis Sampah</label>
+                        <select id="wasteTypeId" class="form-control" required>
+                            <option value="">Pilih Jenis Sampah</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Berat (Kg)</label>
+                        <input type="number" id="weight" class="form-control" placeholder="Masukkan berat dalam kg" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pricePerKg">Harga per Kg</label>
+                        <input type="text" id="pricePerKg" class="form-control" placeholder="Harga per kg" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="totalAmount">Total Nominal</label>
+                        <input type="text" id="totalAmount" class="form-control" placeholder="Total nominal" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
+                </form>
+            </div>
+            
+            <div class="table-container">
+                <h2>Riwayat Transaksi Setor</h2>
+                <table id="depositsTable">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Nama Nasabah</th>
+                            <th>Jenis Sampah</th>
+                            <th>Berat (Kg)</th>
+                            <th>Harga per Kg</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="depositsTableBody">
+                        <!-- Deposits will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in as admin
+            const isAdmin = localStorage.getItem('isAdminLoggedIn');
+            if (isAdmin !== 'true') {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Populate customer dropdown
+            populateCustomerDropdown();
+            
+            // Populate waste type dropdown
+            populateWasteTypeDropdown();
+            
+            // Add event listeners
+            document.getElementById('wasteTypeId').addEventListener('change', calculateTotal);
+            document.getElementById('weight').addEventListener('input', calculateTotal);
+            document.getElementById('depositForm').addEventListener('submit', saveDeposit);
+            
+            // Load deposits table
+            loadDepositsTable();
+        });
+        
+        function populateCustomerDropdown() {
+            const customers = getCustomers();
+            const customerSelect = document.getElementById('customerId');
+            
+            customerSelect.innerHTML = '<option value="">Pilih Nasabah</option>';
+            
+            customers.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.id;
+                option.textContent = `${customer.name} (${customer.username})`;
+                customerSelect.appendChild(option);
+            });
+        }
+        
+        function populateWasteTypeDropdown() {
+            const wasteTypes = getWasteTypes();
+            const wasteTypeSelect = document.getElementById('wasteTypeId');
+            
+            // Only show active waste types
+            const activeWasteTypes = wasteTypes.filter(wt => wt.status === 'active');
+            
+            wasteTypeSelect.innerHTML = '<option value="">Pilih Jenis Sampah</option>';
+            
+            activeWasteTypes.forEach(wasteType => {
+                const option = document.createElement('option');
+                option.value = wasteType.id;
+                option.textContent = `${wasteType.name} (${formatCurrency(wasteType.price)} per kg)`;
+                option.dataset.price = wasteType.price;
+                wasteTypeSelect.appendChild(option);
+            });
+        }
+        
+        function calculateTotal() {
+            const wasteTypeId = document.getElementById('wasteTypeId').value;
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            
+            if (wasteTypeId) {
+                const wasteTypeSelect = document.getElementById('wasteTypeId');
+                const selectedOption = wasteTypeSelect.options[wasteTypeSelect.selectedIndex];
+                const pricePerKg = parseFloat(selectedOption.dataset.price);
+                
+                document.getElementById('pricePerKg').value = formatCurrency(pricePerKg);
+                
+                const total = pricePerKg * weight;
+                document.getElementById('totalAmount').value = formatCurrency(total);
+            } else {
+                document.getElementById('pricePerKg').value = '';
+                document.getElementById('totalAmount').value = '';
+            }
+        }
+        
+        function saveDeposit(e) {
+            e.preventDefault();
+            
+            const customerId = parseInt(document.getElementById('customerId').value);
+            const wasteTypeId = parseInt(document.getElementById('wasteTypeId').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            
+            if (!customerId || !wasteTypeId || !weight || weight <= 0) {
+                alert('Silakan lengkapi semua field dengan benar');
+                return;
+            }
+            
+            // Get waste type details
+            const wasteTypes = getWasteTypes();
+            const wasteType = wasteTypes.find(wt => wt.id === wasteTypeId);
+            
+            if (!wasteType) {
+                alert('Jenis sampah tidak ditemukan');
+                return;
+            }
+            
+            // Calculate amount
+            const amount = wasteType.price * weight;
+            
+            // Create transaction
+            const transaction = {
+                type: 'deposit',
+                customerId: customerId,
+                wasteTypeId: wasteTypeId,
+                wasteName: wasteType.name,
+                weight: weight,
+                pricePerKg: wasteType.price,
+                amount: amount
+            };
+            
+            // Add transaction
+            addTransaction(transaction);
+            
+            // Update customer balance
+            updateCustomerBalance(customerId, amount, 'deposit');
+            
+            // Reset form
+            document.getElementById('depositForm').reset();
+            document.getElementById('pricePerKg').value = '';
+            document.getElementById('totalAmount').value = '';
+            
+            // Reload deposits table
+            loadDepositsTable();
+            
+            alert('Transaksi setor sampah berhasil disimpan');
+        }
+        
+        function loadDepositsTable() {
+            const transactions = getTransactions();
+            const deposits = transactions.filter(t => t.type === 'deposit');
+            const tableBody = document.getElementById('depositsTableBody');
+            
+            if (deposits.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6">Tidak ada transaksi setor</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            // Sort by date (newest first)
+            deposits.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            deposits.forEach(deposit => {
+                const row = document.createElement('tr');
+                
+                // Get customer name
+                const customer = getCustomerById(deposit.customerId);
+                const customerName = customer ? customer.name : 'Nasabah Tidak Ditemukan';
+                
+                // Format date
+                const formattedDate = formatDate(deposit.date);
+                
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${customerName}</td>
+                    <td>${deposit.wasteName}</td>
+                    <td>${deposit.weight} kg</td>
+                    <td>${formatCurrency(deposit.pricePerKg)}</td>
+                    <td>${formatCurrency(deposit.amount)}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>

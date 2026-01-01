@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Responsif - Bank Sampah</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .device-indicator {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .small-phone { background: #d4edda; }
+        .medium-phone { background: #f8d7da; }
+        .tablet-portrait { background: #cce5ff; }
+        .tablet-landscape { background: #fff3cd; }
+        .laptop { background: #d1ecf1; }
+        .xl-desktop { background: #f8d7da; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Responsif - Bank Sampah</h1>
+        <p>Halaman ini digunakan untuk menguji responsifitas desain di berbagai ukuran perangkat.</p>
+        
+        <div class="test-section">
+            <div class="device-indicator small-phone">📱 Small Phones (361px - 480px)</div>
+            <p>Uji di perangkat dengan lebar 361px - 480px:</p>
+            <ul>
+                <li>Menu navigasi harus berubah menjadi hamburger menu</li>
+                <li>Logo harus menyesuaikan ukuran (50px)</li>
+                <li>Grid features harus menjadi 1 kolom</li>
+                <li>Grid steps harus menjadi 1 kolom</li>
+                <li>Button harus ditampilkan secara vertikal</li>
+                <li>Hamburger menu harus berfungsi dengan baik</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <div class="device-indicator medium-phone">📱 Medium Phones (481px - 576px)</div>
+            <p>Uji di perangkat dengan lebar 481px - 576px:</p>
+            <ul>
+                <li>Menu navigasi harus berubah menjadi hamburger menu</li>
+                <li>Logo harus menyesuaikan ukuran (55px)</li>
+                <li>Grid features harus menjadi 1 kolom</li>
+                <li>Grid steps harus menjadi 1 kolom</li>
+                <li>Button harus ditampilkan secara vertikal</li>
+                <li>Hamburger menu harus berfungsi dengan baik</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <div class="device-indicator tablet-portrait">📱💻 Tablet Portrait (577px - 768px)</div>
+            <p>Uji di perangkat dengan lebar 577px - 768px:</p>
+            <ul>
+                <li>Menu navigasi harus berubah menjadi hamburger menu</li>
+                <li>Logo harus menyesuaikan ukuran (60px)</li>
+                <li>Grid features harus menjadi 2 kolom</li>
+                <li>Grid steps harus menjadi 2 kolom</li>
+                <li>Button harus ditampilkan secara vertikal</li>
+                <li>Hamburger menu harus berfungsi dengan baik</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <div class="device-indicator tablet-landscape">💻 Tablet Landscape (769px - 1024px)</div>
+            <p>Uji di perangkat dengan lebar 769px - 1024px:</p>
+            <ul>
+                <li>Menu navigasi harus berubah menjadi hamburger menu</li>
+                <li>Grid features harus menjadi 2 kolom</li>
+                <li>Grid steps harus menjadi 2 kolom</li>
+                <li>Layout harus tetap rapi dan proporsional</li>
+                <li>Hamburger menu harus berfungsi dengan baik</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <div class="device-indicator laptop">💻 Laptop (1025px - 1365px)</div>
+            <p>Uji di perangkat dengan lebar 1025px - 1365px:</p>
+            <ul>
+                <li>Menu navigasi harus ditampilkan secara horizontal</li>
+                <li>Grid features harus menjadi 3 kolom</li>
+                <li>Grid steps harus menjadi 2 kolom</li>
+                <li>Ukuran kontainer harus menyesuaikan</li>
+                <li>Layout harus tetap seimbang</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <div class="device-indicator xl-desktop">🖥️ Extra Large Desktop (≥1366px)</div>
+            <p>Uji di perangkat layar lebar dengan lebar ≥1366px:</p>
+            <ul>
+                <li>Menu navigasi harus ditampilkan secara horizontal</li>
+                <li>Grid features harus menjadi 3 kolom</li>
+                <li>Grid steps harus menjadi 4 kolom</li>
+                <li>Ukuran kontainer maksimum harus 1200px</li>
+                <li>Layout harus optimal untuk layar lebar</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="index.html" style="display: inline-block; padding: 10px 20px; background: #2d5016; color: white; text-decoration: none; border-radius: 5px;">Kembali ke Halaman Utama</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan - Bank Sampah</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 400px;
+            margin: 2rem 0;
+        }
+
+        .dashboard-charts {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Manajemen Nasabah</a></li>
+                <li><a href="waste-types.html"><i class="fas fa-trash-alt"></i> Jenis Sampah</a></li>
+                <li><a href="deposits.html"><i class="fas fa-donate"></i> Setor Sampah</a></li>
+                <li><a href="withdrawals.html"><i class="fas fa-money-bill-wave"></i> Penarikan</a></li>
+                <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Riwayat Transaksi</a></li>
+                <li><a href="reports.html" class="active"><i class="fas fa-chart-bar"></i> Laporan</a></li>
+                <li><a href="admins.html"><i class="fas fa-user-shield"></i> Manajemen Admin</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Pengaturan Sistem</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Laporan</h1>
+            </div>
+            
+            <div class="filters">
+                <div class="form-group">
+                    <label for="reportType">Jenis Laporan</label>
+                    <select id="reportType" class="form-control">
+                        <option value="monthly">Laporan Bulanan</option>
+                        <option value="yearly">Laporan Tahunan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reportPeriod">Periode</label>
+                    <input type="month" id="reportPeriod" class="form-control">
+                </div>
+                <button class="btn btn-primary" id="generateReportBtn">Generate Laporan</button>
+                <button class="btn btn-secondary" id="printReportBtn">Cetak Laporan</button>
+            </div>
+            
+            <div class="report-stats">
+                <div class="stat-card">
+                    <i class="fas fa-trash-alt"></i>
+                    <div class="stat-info">
+                        <h3 id="totalWasteAmount">0 kg</h3>
+                        <p>Total Berat Sampah</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-wallet"></i>
+                    <div class="stat-info">
+                        <h3 id="totalDepositAmount">Rp 0</h3>
+                        <p>Total Setoran</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div class="stat-info">
+                        <h3 id="totalWithdrawalAmount">Rp 0</h3>
+                        <p>Total Penarikan</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-info">
+                        <h3 id="totalTransactions">0</h3>
+                        <p>Total Transaksi</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="report-section">
+                <h2>Detail Laporan</h2>
+                <div class="table-container">
+                    <table id="reportTable">
+                        <thead>
+                            <tr>
+                                <th>Jenis Sampah</th>
+                                <th>Jumlah (Kg)</th>
+                                <th>Jumlah Transaksi</th>
+                                <th>Total Nilai</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportTableBody">
+                            <!-- Report data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in as admin
+            const isAdmin = localStorage.getItem('isAdminLoggedIn');
+            if (isAdmin !== 'true') {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Add event listeners
+            document.getElementById('generateReportBtn').addEventListener('click', generateReport);
+            document.getElementById('printReportBtn').addEventListener('click', printReport);
+            
+            // Set default date to current month
+            const now = new Date();
+            document.getElementById('reportPeriod').value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+            
+            // Generate initial report for current month
+            generateReport();
+        });
+        
+        function generateReport() {
+            const reportType = document.getElementById('reportType').value;
+            const reportPeriod = document.getElementById('reportPeriod').value;
+            
+            if (!reportPeriod) {
+                alert('Silakan pilih periode laporan');
+                return;
+            }
+            
+            // Parse the selected period
+            const [year, month] = reportPeriod.split('-').map(Number);
+            
+            // Get transactions for the selected period
+            const transactions = getTransactions();
+            const filteredTransactions = transactions.filter(t => {
+                const tDate = new Date(t.date);
+                return tDate.getFullYear() === year && (reportType === 'yearly' || tDate.getMonth() + 1 === month);
+            });
+            
+            // Calculate report statistics
+            const reportStats = calculateReportStats(filteredTransactions, reportType, year, month);
+            
+            // Update statistics display
+            document.getElementById('totalWasteAmount').textContent = `${reportStats.totalWaste.toFixed(2)} kg`;
+            document.getElementById('totalDepositAmount').textContent = formatCurrency(reportStats.totalDeposit);
+            document.getElementById('totalWithdrawalAmount').textContent = formatCurrency(reportStats.totalWithdrawal);
+            document.getElementById('totalTransactions').textContent = reportStats.totalTransactions;
+            
+            // Update report table
+            updateReportTable(reportStats.wasteDetails);
+            
+            // Update charts
+        }
+        
+        function calculateReportStats(transactions, reportType, year, month) {
+            let totalWaste = 0;
+            let totalDeposit = 0;
+            let totalWithdrawal = 0;
+            let totalTransactions = 0;
+            
+            // Group transactions by waste type
+            const wasteDetails = {};
+            
+            transactions.forEach(t => {
+                totalTransactions++;
+                
+                if (t.type === 'deposit') {
+                    totalDeposit += t.amount;
+                    
+                    if (t.wasteName) {
+                        if (!wasteDetails[t.wasteName]) {
+                            wasteDetails[t.wasteName] = {
+                                name: t.wasteName,
+                                totalWeight: 0,
+                                transactionCount: 0,
+                                totalValue: 0
+                            };
+                        }
+                        
+                        wasteDetails[t.wasteName].totalWeight += t.weight || 0;
+                        wasteDetails[t.wasteName].transactionCount++;
+                        wasteDetails[t.wasteName].totalValue += t.amount;
+                        totalWaste += t.weight || 0;
+                    }
+                } else if (t.type === 'withdrawal') {
+                    totalWithdrawal += t.amount;
+                }
+            });
+            
+            return {
+                totalWaste,
+                totalDeposit,
+                totalWithdrawal,
+                totalTransactions,
+                wasteDetails: Object.values(wasteDetails)
+            };
+        }
+        
+        function updateReportTable(wasteDetails) {
+            const tableBody = document.getElementById('reportTableBody');
+            
+            if (wasteDetails.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4">Tidak ada data laporan</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            wasteDetails.forEach(detail => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${detail.name}</td>
+                    <td>${detail.totalWeight.toFixed(2)} kg</td>
+                    <td>${detail.transactionCount}</td>
+                    <td>${formatCurrency(detail.totalValue)}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+
+        function printReport() {
+            alert('Fungsi cetak laporan akan diimplementasikan di versi berikutnya.');
+            // In a real application, you would generate a printable report
+        }
+    </script>
+</body>
+</html>

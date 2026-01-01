@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontak dan Lokasi - Bank Sampah</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/kontak.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <a href="index.html">
+            <img src="img/logo.png" alt="Logo Bank Sampah" class="logo" />
+          </a>
+        </div>
+        <div class="nav-menu" id="nav-menu">
+          <a href="index.html" class="nav-link">Beranda</a>
+          <a href="tentang.html" class="nav-link">Tentang Kami</a>
+          <a href="jenis-sampah.html" class="nav-link">Jenis Sampah</a>
+          <a href="cara-menabung.html" class="nav-link">Cara Menabung</a>
+          <a href="cek-saldo.html" class="nav-link">Cek Saldo</a>
+          <!-- <a href="faq.html" class="nav-link">FAQ</a> -->
+          <a href="kontak.html" class="nav-link active">Kontak</a>
+          <a href="login.html" class="nav-link btn-login">Login</a>
+        </div>
+        <div class="nav-toggle" id="mobile-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contact Section -->
+    <section class="contact">
+      <div class="container">
+        <h1>Kontak dan Lokasi</h1>
+
+        <div class="contact-info-section">
+          <h2>Informasi Kontak</h2>
+          <div class="contact-cards-grid">
+            <div class="contact-card">
+              <i class="fas fa-map-marker-alt"></i>
+              <h3>Alamat</h3>
+              <p>Jl. Lingkungan Bersih No. 123, Jakarta</p>
+            </div>
+            <div class="contact-card">
+              <i class="fas fa-clock"></i>
+              <h3>Jam Operasional</h3>
+              <p>Senin - Jumat: 08:00 - 16:00 WIB</p>
+              <p>Sabtu: 08:00 - 12:00 WIB</p>
+              <p>Minggu: Libur</p>
+            </div>
+            <div class="contact-card">
+              <i class="fas fa-phone"></i>
+              <h3>Telepon</h3>
+              <p>(021) 12345678</p>
+            </div>
+            <div class="contact-card">
+              <i class="fab fa-whatsapp"></i>
+              <h3>WhatsApp</h3>
+              <p>+62 812-3456-7890</p>
+            </div>
+            <div class="contact-card">
+              <i class="fas fa-envelope"></i>
+              <h3>Email</h3>
+              <p>info@banksampah.id</p>
+            </div>
+            <div class="contact-card map-card">
+              <i class="fas fa-map-marked-alt"></i>
+              <h3>Lokasi Bank Sampah</h3>
+              <div class="map-container">
+                <!-- Embedded Google Maps -->
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.122615152462!2d106.8222233147688!3d-6.262769995497224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3f28e6b4b19%3A0x53406240f08a4f38!2sBank%20Sampah!5e0!3m2!1sid!2sid!4v1650000000000!5m2!1sid!2sid"
+                  width="100%"
+                  height="200"
+                  style="border: 0; border-radius: 8px"
+                  allowfullscreen=""
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-section">
+          <h2>Kirim Pesan</h2>
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Nama Lengkap</label>
+                <input
+                  type="text"
+                  id="name"
+                  class="form-control"
+                  placeholder="Masukkan nama Anda"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Masukkan email Anda"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="subject">Subjek</label>
+              <input
+                type="text"
+                id="subject"
+                class="form-control"
+                placeholder="Masukkan subjek pesan"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="message">Pesan</label>
+              <textarea
+                id="message"
+                class="form-control"
+                rows="5"
+                placeholder="Tulis pesan Anda di sini"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Bank Sampah</h3>
+            <p>
+              Menabung sampah untuk kehidupan yang lebih baik dan lingkungan
+              yang bersih.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h4>Tautan Cepat</h4>
+            <ul>
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="tentang.html">Tentang Kami</a></li>
+              <li><a href="jenis-sampah.html">Jenis Sampah</a></li>
+              <li><a href="cek-saldo.html">Cek Saldo</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Kontak</h4>
+            <p>
+              <i class="fas fa-map-marker-alt"></i> Jl. Lingkungan Bersih No.
+              123
+            </p>
+            <p><i class="fas fa-phone"></i> (021) 12345678</p>
+            <p><i class="fas fa-envelope"></i> info@banksampah.id</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Bank Sampah. Semua Hak Dilindungi.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/kontak.js"></script>
+  </body>
+</html>

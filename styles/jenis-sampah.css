@@ -1,0 +1,241 @@
+/* Waste Types Section */
+.waste-types {
+  padding: 4rem 0 2rem 0;
+}
+
+.waste-types h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  color: #2d5016;
+}
+
+.waste-types p {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.waste-guidelines {
+  margin-top: 3rem;
+}
+
+.waste-guidelines h2 {
+  text-align: center;
+  color: #2d5016;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.guidelines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.guideline-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.guideline-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.guideline-card i {
+  font-size: 2rem;
+  color: #2d5016;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.guideline-card p {
+  margin: 0;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+/* 1. SMALL PHONES 361–480px */
+@media (min-width: 361px) and (max-width: 480px) {
+  .waste-types h1 {
+    font-size: 1.8rem;
+  }
+
+  .waste-types p {
+    font-size: 0.9rem;
+  }
+
+  .waste-guidelines h2 {
+    font-size: 1.5rem;
+  }
+
+  .guidelines-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .guideline-card {
+    padding: 1.2rem;
+  }
+
+  .guideline-card i {
+    font-size: 1.8rem;
+  }
+
+  .guideline-card p {
+    font-size: 0.85rem;
+  }
+}
+
+/* 2. MEDIUM PHONES 481–576px */
+@media (min-width: 481px) and (max-width: 576px) {
+  .waste-types h1 {
+    font-size: 2rem;
+  }
+
+  .waste-types p {
+    font-size: 0.95rem;
+  }
+
+  .waste-guidelines h2 {
+    font-size: 1.6rem;
+  }
+
+  .guidelines-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .guideline-card {
+    padding: 1.3rem;
+  }
+
+  .guideline-card i {
+    font-size: 1.9rem;
+  }
+
+  .guideline-card p {
+    font-size: 0.9rem;
+  }
+}
+
+/* 3. TABLET PORTRAIT 577–840px */
+@media (min-width: 577px) and (max-width: 840px) {
+  .waste-types h1 {
+    font-size: 2.2rem;
+  }
+
+  .waste-types p {
+    font-size: 1rem;
+  }
+
+  .waste-guidelines h2 {
+    font-size: 1.7rem;
+  }
+
+  .guidelines-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.3rem;
+  }
+
+  .guideline-card {
+    padding: 1.4rem;
+  }
+
+  .guideline-card i {
+    font-size: 2rem;
+  }
+
+  .guideline-card p {
+    font-size: 0.95rem;
+  }
+}
+
+/* 4. TABLET LANDSCAPE / SMALL LAPTOP 841–1024px */
+@media (min-width: 841px) and (max-width: 1024px) {
+  .waste-types h1 {
+    font-size: 2.3rem;
+  }
+
+  .waste-types p {
+    font-size: 1.05rem;
+  }
+
+  .waste-guidelines h2 {
+    font-size: 1.8rem;
+  }
+
+  .guidelines-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .guideline-card {
+    padding: 1.5rem;
+  }
+
+  .guideline-card i {
+    font-size: 2.1rem;
+  }
+
+  .guideline-card p {
+    font-size: 1rem;
+  }
+}
+
+/* 5. LAPTOP 1025–1365px */
+@media (min-width: 1025px) and (max-width: 1365px) {
+  .waste-types h1 {
+    font-size: 2.4rem;
+  }
+
+  .waste-guidelines h2 {
+    font-size: 1.8rem;
+  }
+
+  .guidelines-grid {
+    gap: 1.8rem;
+  }
+
+  .guideline-card {
+    padding: 1.6rem;
+  }
+
+  .guideline-card i {
+    font-size: 2.2rem;
+  }
+
+  .guideline-card p {
+    font-size: 1.05rem;
+  }
+}
+
+/* Extra Large Desktop */
+@media screen and (min-width: 1366px) {
+  .waste-types h1 {
+    font-size: 2.5rem;
+  }
+
+  .waste-guidelines h2 {
+    font-size: 1.8rem;
+  }
+
+  .guideline-card {
+    padding: 1.5rem;
+  }
+
+  .guideline-card i {
+    font-size: 2rem;
+  }
+
+  .guideline-card p {
+    font-size: 0.95rem;
+  }
+}

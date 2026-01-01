@@ -1,0 +1,219 @@
+/* FAQ Section */
+.faq-section {
+  padding: 4rem 0;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.faq-question {
+  background-color: #2d5016;
+  color: white;
+  padding: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.faq-question i {
+  transition: transform 0.3s;
+}
+
+.faq-answer {
+  padding: 1.5rem;
+  background-color: white;
+  display: none;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+.faq-item.active .faq-question i {
+  transform: rotate(180deg);
+}
+
+/* 1. SMALL PHONES 361–480px */
+@media (min-width: 361px) and (max-width: 480px) {
+  .faq-section {
+    padding: 3rem 0;
+  }
+
+  .faq-container {
+    margin: 0 1rem;
+  }
+
+  .faq-item {
+    margin-bottom: 1rem;
+  }
+
+  .faq-question {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .faq-question i {
+    font-size: 0.8rem;
+  }
+
+  .faq-answer {
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* 2. MEDIUM PHONES 481–576px */
+@media (min-width: 481px) and (max-width: 576px) {
+  .faq-section {
+    padding: 3.5rem 0;
+  }
+
+  .faq-container {
+    margin: 0 1rem;
+  }
+
+  .faq-item {
+    margin-bottom: 1.2rem;
+  }
+
+  .faq-question {
+    padding: 1.1rem;
+    font-size: 0.95rem;
+  }
+
+  .faq-question i {
+    font-size: 0.85rem;
+  }
+
+  .faq-answer {
+    padding: 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* 3. TABLET PORTRAIT 577–840px */
+@media (min-width: 577px) and (max-width: 840px) {
+  .faq-section {
+    padding: 3.8rem 0;
+  }
+
+  .faq-container {
+    margin: 0 1.2rem;
+  }
+
+  .faq-item {
+    margin-bottom: 1.4rem;
+  }
+
+  .faq-question {
+    padding: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .faq-question i {
+    font-size: 0.9rem;
+  }
+
+  .faq-answer {
+    padding: 1.4rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* 4. TABLET LANDSCAPE / SMALL LAPTOP 841–1024px */
+@media (min-width: 841px) and (max-width: 1024px) {
+  .faq-section {
+    padding: 4rem 0;
+  }
+
+  .faq-container {
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    margin-bottom: 1.5rem;
+  }
+
+  .faq-question {
+    padding: 1.3rem;
+    font-size: 1.05rem;
+  }
+
+  .faq-question i {
+    font-size: 0.95rem;
+  }
+
+  .faq-answer {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* 5. LAPTOP 1025–1365px */
+@media (min-width: 1025px) and (max-width: 1365px) {
+  .faq-section {
+    padding: 4rem 0;
+  }
+
+  .faq-container {
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    margin-bottom: 1.6rem;
+  }
+
+  .faq-question {
+    padding: 1.4rem;
+    font-size: 1.1rem;
+  }
+
+  .faq-question i {
+    font-size: 1rem;
+  }
+
+  .faq-answer {
+    padding: 1.6rem;
+    font-size: 1.05rem;
+  }
+}
+
+/* Extra Large Desktop */
+@media screen and (min-width: 1366px) {
+  .faq-section {
+    padding: 4rem 0;
+  }
+
+  .faq-container {
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    margin-bottom: 1.5rem;
+  }
+
+  .faq-question {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .faq-question i {
+    font-size: 1rem;
+  }
+
+  .faq-answer {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+}

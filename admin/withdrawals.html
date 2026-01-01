@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penarikan Saldo - Bank Sampah</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Manajemen Nasabah</a></li>
+                <li><a href="waste-types.html"><i class="fas fa-trash-alt"></i> Jenis Sampah</a></li>
+                <li><a href="deposits.html"><i class="fas fa-donate"></i> Setor Sampah</a></li>
+                <li><a href="withdrawals.html" class="active"><i class="fas fa-money-bill-wave"></i> Penarikan</a></li>
+                <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Riwayat Transaksi</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i> Laporan</a></li>
+                <li><a href="admins.html"><i class="fas fa-user-shield"></i> Manajemen Admin</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Pengaturan Sistem</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Penarikan Saldo</h1>
+            </div>
+            
+            <div class="form-container">
+                <h2>Input Penarikan Saldo</h2>
+                <form id="withdrawalForm">
+                    <div class="form-group">
+                        <label for="customerId">Pilih Nasabah</label>
+                        <select id="customerId" class="form-control" required>
+                            <option value="">Pilih Nasabah</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="currentBalance">Saldo Saat Ini</label>
+                        <input type="text" id="currentBalance" class="form-control" placeholder="Saldo saat ini" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="withdrawalAmount">Jumlah Penarikan (Rp)</label>
+                        <input type="number" id="withdrawalAmount" class="form-control" placeholder="Masukkan jumlah penarikan" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Deskripsi</label>
+                        <input type="text" id="description" class="form-control" placeholder="Deskripsi penarikan (opsional)">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Simpan Penarikan</button>
+                </form>
+            </div>
+            
+            <div class="table-container">
+                <h2>Riwayat Penarikan</h2>
+                <table id="withdrawalsTable">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Nama Nasabah</th>
+                            <th>Jumlah</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="withdrawalsTableBody">
+                        <!-- Withdrawals will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in as admin
+            const isAdmin = localStorage.getItem('isAdminLoggedIn');
+            if (isAdmin !== 'true') {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Populate customer dropdown
+            populateCustomerDropdown();
+            
+            // Add event listeners
+            document.getElementById('customerId').addEventListener('change', updateCurrentBalance);
+            document.getElementById('withdrawalForm').addEventListener('submit', saveWithdrawal);
+            
+            // Load withdrawals table
+            loadWithdrawalsTable();
+        });
+        
+        function populateCustomerDropdown() {
+            const customers = getCustomers();
+            const customerSelect = document.getElementById('customerId');
+            
+            customerSelect.innerHTML = '<option value="">Pilih Nasabah</option>';
+            
+            customers.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.id;
+                option.textContent = `${customer.name} (Saldo: ${formatCurrency(customer.balance)})`;
+                customerSelect.appendChild(option);
+            });
+        }
+        
+        function updateCurrentBalance() {
+            const customerId = parseInt(document.getElementById('customerId').value);
+            
+            if (customerId) {
+                const customers = getCustomers();
+                const customer = customers.find(c => c.id === customerId);
+                
+                if (customer) {
+                    document.getElementById('currentBalance').value = formatCurrency(customer.balance);
+                }
+            } else {
+                document.getElementById('currentBalance').value = '';
+            }
+        }
+        
+        function saveWithdrawal(e) {
+            e.preventDefault();
+            
+            const customerId = parseInt(document.getElementById('customerId').value);
+            const amount = parseFloat(document.getElementById('withdrawalAmount').value);
+            const description = document.getElementById('description').value;
+            
+            if (!customerId || !amount || amount <= 0) {
+                alert('Silakan lengkapi semua field dengan benar');
+                return;
+            }
+            
+            // Get customer to check balance
+            const customers = getCustomers();
+            const customer = customers.find(c => c.id === customerId);
+            
+            if (!customer) {
+                alert('Nasabah tidak ditemukan');
+                return;
+            }
+            
+            if (amount > customer.balance) {
+                alert('Jumlah penarikan melebihi saldo yang tersedia');
+                return;
+            }
+            
+            // Create transaction
+            const transaction = {
+                type: 'withdrawal',
+                customerId: customerId,
+                amount: amount,
+                description: description || 'Penarikan saldo'
+            };
+            
+            // Add transaction
+            addTransaction(transaction);
+            
+            // Update customer balance
+            updateCustomerBalance(customerId, amount, 'withdrawal');
+            
+            // Reset form
+            document.getElementById('withdrawalForm').reset();
+            document.getElementById('currentBalance').value = '';
+            
+            // Reload customer dropdown and withdrawals table
+            populateCustomerDropdown();
+            loadWithdrawalsTable();
+            
+            alert('Penarikan saldo berhasil disimpan');
+        }
+        
+        function loadWithdrawalsTable() {
+            const transactions = getTransactions();
+            const withdrawals = transactions.filter(t => t.type === 'withdrawal');
+            const tableBody = document.getElementById('withdrawalsTableBody');
+            
+            if (withdrawals.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4">Tidak ada transaksi penarikan</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            // Sort by date (newest first)
+            withdrawals.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            withdrawals.forEach(withdrawal => {
+                const row = document.createElement('tr');
+                
+                // Get customer name
+                const customer = getCustomerById(withdrawal.customerId);
+                const customerName = customer ? customer.name : 'Nasabah Tidak Ditemukan';
+                
+                // Format date
+                const formattedDate = formatDate(withdrawal.date);
+                
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${customerName}</td>
+                    <td>${formatCurrency(withdrawal.amount)}</td>
+                    <td>${withdrawal.description || '-'}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
