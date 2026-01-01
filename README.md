@@ -1,14 +1,9 @@
 # Waste-Bank
 Website-based Waste Bank Application
 
-
-
-# WEBSITE-Bank-Sampah --------> UAS Pemrograman Web 1 
  
 Website Bank Sampah sederhana yang dibuat sebagai tugas UAS mata kuliah Pemrograman Web 1.  
 Project ini menggunakan HTML, CSS, dan JavaScript tanpa backend (PHP/MySQL).
-
-
 
 # Teknologi yang Digunakan
 - HTML5 → Struktur halaman
@@ -16,45 +11,34 @@ Project ini menggunakan HTML, CSS, dan JavaScript tanpa backend (PHP/MySQL).
 - JavaScript → Logika dan penyimpanan data (Local Storage)
 - Git & GitHub → Version control
 
-
 # Langkah Clone Repository (Menyalin Project)
 
-Clone digunakan untuk menyalin project dari GitHub ke komputer lokal agar bisa diedit.
-
+# Clone digunakan untuk menyalin project dari GitHub ke komputer lokal agar bisa diedit.
 1. Pastikan Git sudah terinstal ---> Digunakan untuk mengelola repository GitHub.
 2. Buka Terminal / CMD / Git Bash / langsung dari cmd juga bisa 
-3. Clone repository: git clone https:
+3. Clone repository: git clone https://github.com/yovanhayon-ctrl/Waste-Bank.git
 4. Masuk ke folder project: cd WEBSITE-Bank-Sampah
 5. Buka project di VS Code: masuk ke cmd dari folder project yg ada dan ketik code .
 
 
 # Cara Push Project ke GitHub
 Jika kamu ingin mengirim (push) perubahan ke GitHub:
-
 1. Cek status perubahan file: git status
 2. Tambahkan semua file yang berubah: git add .
-3. Commit perubahan: git commit -m "Update project Bank Sampah"
+3. Commit perubahan: git commit -m "Exc: Update project Bank Sampah"
 4. Push ke repository GitHub: git push origin main
 
 # Jika melakukan perubahan pada code pada project pastikan "git pull origin main" terlebih dahulu.
 
-
-
-
 # MENJALANKAN WEBSITE DARI GITHUB PAGES
-
-1. Buka repository:
-   
-
+1. Buka repository: https://github.com/yovanhayon-ctrl/Waste-Bank.git
 2. Klik Settings → Pages
-
 3. Atur Source:
    Branch : main
    Folder : /root
-
 4. Klik Save dan tunggu ±30–60 detik
-
-5. Buka website:
+5. Setelah melakukan langkah-langkah di atas maka web bisa di jalankan menggunakan link di bawah ini:
+6. Buka website: https://yovanhayon-ctrl.github.io/Waste-Bank/
 
 
 
